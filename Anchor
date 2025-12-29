@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ANCHORS PAGE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  color:white;
+  text-align:center;
+  background:linear-gradient(270deg,#020024,#040b3a,#001f3f,#020024);
+  background-size:600% 600%;
+  animation:bgMove 20s ease infinite;
+  overflow-x:hidden;
+}
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+.bg-icon{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:280px;
+  color:rgba(255,255,255,0.05);
+  z-index:0;
+  animation:float 6s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translate(-50%,-50%)}
+  50%{transform:translate(-50%,-55%)}
+}
+
+.page{display:none;padding:40px 20px;position:relative;z-index:1}
+.active{display:block}
+
+.box{
+  background:rgba(0,0,0,0.65);
+  padding:30px;
+  border-radius:18px;
+  max-width:900px;
+  margin:20px auto;
+}
+
+.glow{
+  text-shadow:0 0 12px #0ff,0 0 25px #00f;
+}
+
+button{
+  padding:15px 30px;
+  margin:10px;
+  border:none;
+  border-radius:12px;
+  font-size:1.1em;
+  font-weight:bold;
+  cursor:pointer;
+  background:#0ff;
+  color:#000;
+  box-shadow:0 0 15px #0ff;
+  transition:0.3s;
+}
+button:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 35px #0ff;
+}
+
+.back{
+  background:#ff4d4d;
+  box-shadow:0 0 15px #ff4d4d;
+}
+
+.icon-cover{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 22px;
+  margin:12px 0;
+  border-radius:50px;
+  background:rgba(255,255,255,0.05);
+  box-shadow:0 0 20px rgba(0,255,255,0.4);
+  animation:pulse 2s infinite;
+  transition:0.4s;
+}
+.icon-cover:hover{
+  transform:scale(1.1) rotate(-2deg);
+  box-shadow:0 0 40px rgba(0,255,255,0.9);
+}
+
+@keyframes pulse{
+  0%{box-shadow:0 0 10px rgba(0,255,255,0.3)}
+  50%{box-shadow:0 0 30px rgba(0,255,255,0.8)}
+  100%{box-shadow:0 0 10px rgba(0,255,255,0.3)}
+}
+
+.fa-instagram{font-size:28px;color:#ff4dd2}
+.fa-whatsapp{font-size:28px;color:#25D366}
+
+a{color:#0ff;text-decoration:none;font-weight:bold}
+a:hover{text-decoration:underline}
+
+input{padding:10px;width:70%;border-radius:8px;border:none;font-size:1em}
+
+.pair{display:flex;justify-content:space-between;margin:8px 0;flex-wrap:wrap}
+.name{width:48%;background:#111;padding:10px;border-radius:8px;text-align:left}
+pre{white-space:pre-wrap;font-size:1.1em;text-align:left}
+</style>
+</head>
+<body>
+
+<i class="fa-solid fa-book-open bg-icon"></i>
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="box glow"><h1 id="welcome"></h1></div>
+  <div class="box">
+    <button onclick="openPage('admin')">ADMIN</button>
+    <button onclick="openPage('verify')">CLASS LIST</button>
+    <button onclick="openPage('sports')">SPORTS</button>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin" class="page">
+  <div class="box glow">
+    <h2>ADMIN PANEL</h2>
+    <button onclick="openRole('cm')">C/M [CLASS MONITOR] 🤫</button>
+    <button onclick="openRole('creator')">CREATOR [K] 🤑</button>
+    <button onclick="openRole('gd')">GENERAL DUTIES 🫤</button>
+    <button onclick="openRole('dcm')">DEPUTY CM 🤌</button><br>
+    <button class="back" onclick="openPage('home')">⬅ BACK</button>
+  </div>
+</div>
+
+<!-- ROLE OPTIONS -->
+<div id="roleOptions" class="page">
+  <div class="box glow">
+    <h2 id="roleTitle"></h2>
+    <button onclick="showDetail('name')">NAME</button>
+    <button onclick="showDetail('ig')">IG ACCOUNT</button>
+    <button onclick="showDetail('wa')">WHATSAPP</button><br>
+    <button class="back" onclick="openPage('admin')">⬅ BACK</button>
+  </div>
+</div>
+
+<!-- ROLE DETAILS -->
+<div id="roleDetails" class="page">
+  <div class="box glow" id="detailText"></div>
+  <button class="back" onclick="openPage('roleOptions')">⬅ BACK</button>
+</div>
+
+<!-- CLASS LIST -->
+<div id="verify" class="page">
+  <div class="box glow">
+    <h2>PLEASE VERIFY BY ENTERING YOUR XCUL</h2>
+    <input id="xcul" placeholder="Enter your school"><br><br>
+    <button onclick="showClassList()">VERIFY</button><br>
+    <button class="back" onclick="openPage('home')">⬅ BACK</button>
+  </div>
+</div>
+<div id="classlist" class="page">
+  <div class="box glow">
+    <h2 id="visitorMsg"></h2>
+  </div>
+  <div id="listBox" class="box"></div>
+  <button class="back" onclick="openPage('home')">⬅ BACK HOME</button>
+</div>
+
+<!-- SPORTS -->
+<div id="sports" class="page">
+  <div class="box glow">
+    <h2>CHOOSE YEAR</h2>
+    <button onclick="openYear('2024')">2024</button>
+    <button onclick="openYear('2025')">2025</button><br>
+    <button class="back" onclick="openPage('home')">⬅ BACK</button>
+  </div>
+</div>
+
+<!-- YEAR PAGE -->
+<div id="yearPage" class="page">
+  <div class="box glow">
+    <h2 id="yearTitle"></h2>
+    <div id="yearOptions"></div>
+    <button class="back" onclick="openPage('sports')">⬅ BACK</button>
+  </div>
+</div>
+
+<!-- CATEGORY PAGE -->
+<div id="categoryPage" class="page">
+  <div class="box glow">
+    <h2 id="categoryTitle"></h2>
+    <div id="categoryOptions"></div>
+    <button class="back" onclick="goBackToYear()">⬅ BACK</button>
+  </div>
+</div>
+
+<!-- LINEUP PAGE -->
+<div id="lineupPage" class="page">
+  <div class="box glow">
+    <h2 id="lineupTitle"></h2>
+    <pre id="lineupText"></pre>
+    <button class="back" onclick="goBackToCategory()">⬅ BACK</button>
+  </div>
+</div>
+
+<script>
+// Typing effect
+function typeText(el,text,speed=35){
+  el.innerHTML="";
+  let i=0;
+  const t=setInterval(()=>{
+    el.innerHTML+=text.charAt(i);
+    i++;
+    if(i>=text.length) clearInterval(t);
+  },speed);
+}
+
+// Open pages
+function openPage(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+// Welcome message
+typeText(document.getElementById("welcome"),
+  "HEY ESTEEMED VISITOR 😎\nWELCOME TO ANCHORS PAGE 👇"
+);
+
+// ADMIN roles
+let currentRole="";
+const roles={
+  creator:{title:"CREATOR 🤑", name:"KHAREL HERMAN KAMULEGEYA 😎😎", 
+    ig:`<div class="icon-cover"><i class="fa-brands fa-instagram"></i>
+    <a href="https://www.instagram.com/hermankharel?igsh=NW1jd2JobTkwdXN3" target="_blank">@hermankharel</a></div>`,
+    wa:`<div class="icon-cover"><i class="fa-brands fa-whatsapp"></i>
+    <a href="https://wa.me/256726212154" target="_blank">+256726212154</a></div>
+    <div class="icon-cover"><i class="fa-brands fa-whatsapp"></i>
+    <a href="https://wa.me/256700247470" target="_blank">+256700247470</a></div>`},
+  cm:{title:"CLASS MONITOR 🤫", name:"CM NAME IS LUBOWA JONA",
+    ig:`<div class="icon-cover"><i class="fa-brands fa-instagram"></i>
+    <a href="https://www.instagram.com/hunta_kwagala" target="_blank">@hunta_kwagala</a></div>`,
+    wa:`<div class="icon-cover"><i class="fa-brands fa-whatsapp"></i>
+    <a href="https://wa.me/256744831814" target="_blank">+256744831814</a></div>`},
+  gd:{title:"GENERAL DUTIES 🫤", name:"GD IS AMANYA JAMES 💯",
+    ig:`<div class="icon-cover"><i class="fa-brands fa-instagram"></i>
+    <a href="https://www.instagram.com/amanya_james" target="_blank">@amanya_james</a></div>`,
+    wa:`<div class="icon-cover"><i class="fa-brands fa-whatsapp"></i>
+    <a href="https://wa.me/256755602506" target="_blank">+256755602506</a></div>`},
+  dcm:{title:"DEPUTY CLASS MONITOR 🤌", name:"DCM MUHWEZI JOSHUA",
+    ig:`<div class="icon-cover"><i class="fa-brands fa-instagram"></i>
+    <a href="https://www.instagram.com/muhwezi_joshua" target="_blank">@muhwezi_joshua</a></div>`,
+    wa:`<div class="icon-cover">WHATSAPP COMING SOON ⏳</div>`}
+};
+function openRole(role){currentRole=role; openPage("roleOptions"); typeText(document.getElementById("roleTitle"),roles[role].title);}
+function showDetail(type){openPage("roleDetails"); document.getElementById("detailText").innerHTML=roles[currentRole][type];}
+
+// CLASS LIST
+const pairs=[["Ahereza Conrad","Ainamani Kyzer Mwebaza"],["Ainebyona James","Ark Quintine"],["Bright Amanya","Amanya Ethan"],["Amanya James","Amwine Joseph"],["Ariho Ronald","Arinaitwe Blessing"],["Atolele Ian Paul","Luther King"],["Myles Muhereza","Atukunda Brilliant"],["Trevor Ayebaze","Nick Ayebazibwe"],["Rodrick Baguma","Brian Brasio Bukenya"],["Cyusa David","Micheal Andrew Kabuye"],["Adrian Kaggwwa","Patrick Kakaeto"],["Herman Kharel","Nobert Kanyope"],["Gary Karuhanga","Godfrey Katende"],["Leon Crespo","Joel Kerathum"],["Prosper Kibwana","Mathias Kimbugwe"],["Douglas Kirumira","Paul Kitayimbwa"],["Anthony Kivumbi","Jonathan Lubowa"],["Patrick Lukomwa","Philip Paul Lwasa"],["Mark Morgan","Peter Mugambe"],["Enock Mugisha","Timothy Mugisha"],["Joel Mugumya","Alvin Muwanguzi"],["Paul Muhereza","Joshua Muhwezi"],["Matia Mulalira","Deogratias Muliika"],["Stephene Muliika","Peace Muliika"],["Harry Mutungi","Jonathan Mwebe"],["Isaac Nahabwe","Stephen Namara"],["Aloysious Nsubuga","Phillip Emmanuel"],["Emmanuel Rukundo","Peter Ssekoyndwa"],["Jonathan Ssemanda","Joy Savio"],["Desmond Ssentongo","—"]];
+function showClassList(){
+  const x=document.getElementById("xcul").value.trim();
+  if(!x) return alert("ENTER YOUR XCUL!");
+  openPage("classlist");
+  typeText(document.getElementById("visitorMsg"),`UR MOST WELCOME VISITOR FROM ${x.toUpperCase()} 🎓\nHERE IS THE CLASS LIST OF ANCHORS`);
+  const box=document.getElementById("listBox"); box.innerHTML="";
+  let i=0; function next(){if(i>=pairs.length) return; const d=document.createElement("div"); d.className="pair";
+  d.innerHTML=`<div class="name">${pairs[i][0]}</div><div class="name">${pairs[i][1]}</div>`; box.appendChild(d); i++; setTimeout(next,200);} next();
+}
+
+// SPORTS
+const sportsData={"2024":{"Malast":["Football⚽️🏟","Handball🤾‍♂️🤾‍♀️","Volleyball🏐","Basketball🏀"],"Majunior":["Football⚽️🏟","Handball🤾‍♂️🤾‍♀️","Volleyball🏐","Basketball🏀"]},"2025":{"Malast":["Football⚽️🏟","Handball🤾‍♂️🤾‍♀️","Volleyball🏐","Basketball🏀"],"Majunior":["Football⚽️🏟","Handball🤾‍♂️🤾‍♀️","Volleyball🏐","Basketball🏀"]}};
+const lineups = {
+  "2024_Malast_Football":"Keeper: Onyango\nAtolere\nHerman\nMwebe\nJames\nMatia\nBright\nAboo\nKabada\nDeo\nSubs: Gafayo, Quintine, Rukundo, Kibz, Gary\nCAPTAIN: Aboo\nCOACH: Stevo Namara"
+};
+
+let currentYear="", currentCategory="", currentSport="";
+
+function openYear(year){currentYear=year; openPage("yearPage"); document.getElementById("yearTitle").innerText="CHOOSE CATEGORY "+year; const optionsDiv=document.getElementById("yearOptions"); optionsDiv.innerHTML=""; for(const cat in sportsData[year]){const btn=document.createElement("button"); btn.innerText=cat; btn.onclick=()=>openCategory(cat); optionsDiv.appendChild(btn);}}
+
+function openCategory(cat){currentCategory=cat; openPage("categoryPage"); document.getElementById("categoryTitle").innerText=`${currentYear} - ${cat} CHOOSE SPORT`; const optionsDiv=document.getElementById("categoryOptions"); optionsDiv.innerHTML=""; sportsData[currentYear][cat].forEach(sp=>{const btn=document.createElement("button"); btn.innerText=sp; btn.onclick=()=>openLineup(sp); optionsDiv.appendChild(btn);});}
+
+function openLineup(sport){currentSport=sport; const key=`${currentYear}_${currentCategory}_${sport.split("⚽")[0]}`; const lineup=lineups[key] || "Lineup coming soon ⚡️"; openPage("lineupPage"); document.getElementById("lineupTitle").innerText=`${currentYear} - ${currentCategory} - ${sport}`; document.getElementById("lineupText").innerText=lineup;}
+
+function goBackToYear(){openPage("yearPage");}
+function goBackToCategory(){openPage("categoryPage");}
+</script>
+
+</body>
+</html>
